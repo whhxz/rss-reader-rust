@@ -1,40 +1,34 @@
-use askama::Template;
-use axum::{
-    extract,
-    http::StatusCode,
-    response::{Html, IntoResponse},
-    routing::get,
-    Json, Router,
-};
-use serde_json::json;
-pub mod model;
+use rocket::serde::json::Json;
+use rocket::Config;
+use rocket_dyn_templates::{context, Template};
+#[macro_use]
+extern crate rocket;
 
-#[tokio::main]
-async fn main() {
-    let app = Router::new()
-        .route("/", get(|| async { "Hello World!" }))
-        .route("/json", get(|| async { Json(json!({ "name": "whhxz" })) }))
-        .route(
-            "/html/:name",
-            get(|extract::Path(name): extract::Path<String>| async {
-                let t = HelloTemplate { name };
-                match t.render() {
-                    Ok(html) => Html(html).into_response(),
-                    Err(err) => (
-                        StatusCode::INTERNAL_SERVER_ERROR,
-                        format!("Failed to render template. Error: {err}"),
-                    )
-                        .into_response(),
-                }
-            }),
-        );
-    let listener = tokio::net::TcpListener::bind("127.0.0.1:6789")
-        .await
-        .unwrap();
-    axum::serve(listener, app).await.unwrap();
+#[get("/")]
+fn index() -> &'static str {
+    "Hello, world!"
 }
-#[derive(Template)]
-#[template(path = "hello.html")]
-struct HelloTemplate {
-    name: String,
+
+#[get("/json")]
+fn json() -> Json<Vec<i32>> {
+    Json(vec![1, 2, 3])
+}
+#[get("/temp/<name>")]
+fn template(name: &str) -> Template {
+    Template::render(
+        "hello",
+        context! {
+            name: name
+        },
+    )
+}
+#[launch]
+fn rocket() -> _ {
+    let config = Config::figment()
+        .merge(("port", 6789))
+        .merge(("host", "localhost"));
+    rocket::build()
+        .configure(config)
+        .mount("/", routes![index, json, template])
+        .attach(Template::fairing())
 }
