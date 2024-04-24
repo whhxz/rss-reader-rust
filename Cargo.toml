@@ -7,17 +7,23 @@ edition = "2021"
 
 [dependencies]
 # db
-rusqlite = {version="0.31.0", features = ["chrono"]}
+# rusqlite = {version="^0.31.0", features = ["chrono"]}
 # date
-chrono = "0.4.10"
+chrono = { version = "0.4.10", features = ["serde"] }
 # web
-rocket = {version="0.5.0", features=["json"]}
+rocket = { version = "0.5.0", features = ["json"] }
 # rss
 rss = "2.0"
 # request
-reqwest = { version = "0.12.4"}
+reqwest = { version = "0.12.4" }
 tokio = { version = "1", features = ["full"] }
 
 [dependencies.rocket_dyn_templates]
 version = "0.1.0"
-features = ["handlebars", "tera"]
+# handlebars or tera
+features = ["tera"]
+
+# db
+[dependencies.rocket_sync_db_pools]
+version = "0.1.0"
+features = ["diesel_sqlite_pool", "sqlite_pool"]

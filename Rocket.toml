@@ -1,0 +1,8 @@
+[global]
+address = "127.0.0.1"
+
+[default]
+port = 6789
+
+[default.databases]
+sqlite_rss_reader = { url = "db/rss_reader.sqlite" }

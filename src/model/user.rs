@@ -1,9 +1,12 @@
 #![allow(dead_code)]
 use chrono::{DateTime, Utc};
+use rocket::serde::{Deserialize, Serialize};
 
-#[derive(Debug)]
+#[derive(Debug, Clone, Deserialize, Serialize)]
+#[serde(crate = "rocket::serde")]
 pub struct User {
-    pub id: i32,
+    #[serde(skip_deserializing, skip_serializing_if = "Option::is_none")]
+    pub id: Option<i32>,
     pub username: String,
     pub password: String,
     pub is_admin: bool,
