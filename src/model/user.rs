@@ -14,7 +14,7 @@ pub struct User {
 }
 
 pub struct UserSession {
-    pub id: i32,
+    pub id: Option<i32>,
     pub user_id: i32,
     pub token: String,
     pub create_time: DateTime<Utc>,
