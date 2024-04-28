@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-title" content="Miniflux">
+
+    <meta name="robots" content="noindex,nofollow">
+    <meta name="referrer" content="no-referrer">
+    <meta name="google" content="notranslate">
+    <link rel="stylesheet" type="text/css"
+        href="https://whhxz.com/miniflux/stylesheets/light_serif.0b7e2fd1ea98f9e6338fc830493babac81b545756f6e9e85f2b89a301113f9a6.css">
+
+    <title>登录</title>
+    <style>
+
+    </style>
+</head>
+
+<body>
+    <main>
+        <section class="login-form">
+            <form action="/login" method="post">
+                <input type="hidden" name="token" value="123123">
+                {% if error_msg %}
+                <div class="alert alert-error">{{error_msg}}</div>
+                {% endif %}
+                <label for="form-username">用户名</label>
+                <input type="text" name="username" id="form-username" value="" autocomplete="username" required
+                    autofocus>
+                <label for="form-password">密码</label>
+                <input type="password" name="password" id="form-password" value="" autocomplete="current-password"
+                    required>
+                <div class="buttons">
+                    <button type="submit" class="button button-primary" data-label-loading="载入中…">登录</button>
+                </div>
+            </form>
+        </section>
+    </main>
+</body>
+
+</html>
